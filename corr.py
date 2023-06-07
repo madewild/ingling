@@ -7,9 +7,11 @@ import sys
 import spacy
 from spacy.matcher import Matcher
 
-def match_pattern(pattern):
+def match_pattern(model, pattern):
     """Take a pattern as input and return matches (with longest match)"""
     res = set()
+    nlp = spacy.load(model)
+    doc = nlp(text)
     matcher = Matcher(nlp.vocab)
     matcher.add("", pattern)
     matches = matcher(doc)
@@ -20,8 +22,8 @@ def match_pattern(pattern):
     return(res)
 
 text = open("data/test.txt").read()
-nlp = spacy.load("fr_dep_news_trf")
-doc = nlp(text)
+models = ["fr_core_news_sm", "fr_core_news_md", "fr_core_news_lg", "fr_dep_news_trf"]
+models = models[-1:]
 
 root = "data/2023/sess1/"
 folders = os.listdir(root)
@@ -39,11 +41,16 @@ for folder in sorted(folders):
     else:
         json_file = open(f"{root}{folder}/{json_files[0]}").read()
         patterns = json.loads(json_file)
-        results = match_pattern(patterns)
-        expected = [l.strip() for l in open("data/gold.txt").readlines()]
-        score = 0
-        for phrase in expected:
-            if phrase in results:
-                score += 1
-        print(f"{student}: {score}/20")
-        #print(results)
+        scores = []
+        for model in models:
+            results = match_pattern(model, patterns)
+            expected = [l.strip() for l in open("data/gold.txt").readlines()]
+            score = 0
+            for phrase in expected:
+                if phrase in results:
+                    score += 1
+            scores.append(score)
+        print(scores)
+        max_score = max(scores)
+        print(f"{student}: {max_score}/20")
+            #print(results)
