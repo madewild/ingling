@@ -50,7 +50,7 @@ for folder in sorted(folders):
                 if phrase in results:
                     score += 1
             scores.append(score)
-        print(scores)
+        #print(scores)
         max_score = max(scores)
         print(f"{student}: {max_score}/20")
             #print(results)
