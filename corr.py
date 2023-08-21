@@ -7,6 +7,8 @@ import sys
 import spacy
 from spacy.matcher import Matcher
 
+sess = sys.argv[1]
+
 def match_pattern(model, pattern):
     """Take a pattern as input and return matches (with longest match)"""
     res = set()
@@ -25,7 +27,7 @@ text = open("data/test.txt").read()
 models = ["fr_core_news_sm", "fr_core_news_md", "fr_core_news_lg", "fr_dep_news_trf"]
 models = models[-1:]
 
-root = "data/2023/sess1/"
+root = f"data/2023/sess{sess}/"
 folders = os.listdir(root)
 print(f"\n{len(folders)} assignments found\n")
 for folder in sorted(folders):
