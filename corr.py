@@ -42,7 +42,11 @@ for folder in sorted(folders):
         sys.exit()
     else:
         json_file = open(f"{root}{folder}/{json_files[0]}", encoding="utf-8").read()
-        patterns = json.loads(json_file)
+        try:
+            patterns = json.loads(json_file)
+        except json.decoder.JSONDecodeError:
+            print(f"No valid JSON file for {student}, skipping")
+            continue
         scores = []
         for model in models:
             results = match_pattern(model, patterns)
