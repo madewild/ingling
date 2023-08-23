@@ -37,5 +37,5 @@ for key1, value1 in assignments.items():
                 print(f"{key1} is the same as {key2}!")
             else:
                 simscore = similarity(value1, value2)
-                if simscore > .6:
+                if simscore > .65:
                     print(f"{key1} is very similar to {key2}")
